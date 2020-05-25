@@ -1,0 +1,61 @@
+Per installare NDBGRID su RAD Studio XE6 seguire i seguenti passi:
+
+
+ 1) Individuare la cartella $(BDSCOMMONDIR) e copiare la cartella
+    NDBGRID contenuta in questo archivio ZIP.
+
+    Su XP suddetta cartella è normalmente in 
+
+      C:\Documents and Settings\All Users\Documenti\Embarcadero\Studio\16.0
+
+    mentre su Vista o Windows 7/8 solitamente si trova in
+
+      C:\Users\Public\Documents\Embarcadero\Studio\16.0
+
+
+ 2) Lanciare RAD Studio XE8
+
+
+ 3) Dal menu "Tools" selezionare la voce "Options..."
+
+
+ 4) Selezionare il nodo 
+
+      "Environment Options" -> "C++ Options" -> "Path and Directories"
+   
+    e nel campo "Include Paths" aggiungere il valore
+
+      $(BDSCOMMONDIR)\NDBGrid
+
+
+ 5) Similmente aggiungere la voce 
+
+      $(BDSCOMMONDIR)\NDBGrid
+
+    anche al campo "Library path" 
+
+
+ 6) Aprire il Runtime Package "EnhDbGridRunPkg.cbproj" che si trova
+    nella cartella $(BDSCOMMONDIR)\NDBgrid
+
+
+ 7)   Dal menu "Project" selezionare la voce "Build EnhDbGridRunPkg" (Shift+F9)
+ 7.1) Mettere il target Win64 e ripetere l'operazione se si vuole anche la versione a 64 bit
+
+
+ 8) Aprire il Design Package "EnhDbGridDsgnPkg.cbproj" che si trova
+    nella cartella $(BDSCOMMONDIR)\NDBgrid
+
+
+ 9) Dal menu "Project" selezionare la voce "Build EnhDbGridDsgnPkg" (Shift+F9)
+
+
+10) Nel "Project manager", il pannello che - col "Default Layout" dell'IDE - si
+    trova in alto a destra, cliccare col tasto destro del mouse il nodo
+
+	"EnhDbGridDsgnPkg220.bpl"
+
+    e, dal menu contestuale che apparirà, cliccare la voce "install".
+
+NDBGRID apparirà nella sezione "Data controls" della Tool palette.
+   
