@@ -18,7 +18,7 @@ using std::sort;
 using std::equal;
 using std::max;
 
-#pragma resource "RuntimeRes.res"
+//#pragma resource "RuntimeRes.res"
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
@@ -33,6 +33,7 @@ static inline void ValidCtrCheck(TNDBGrid *)
 }
 //---------------------------------------------------------------------------
 
+/*
 namespace Ndbgrid
 {
     void __fastcall PACKAGE Register()
@@ -41,6 +42,7 @@ namespace Ndbgrid
          RegisterComponents("Data Controls", classes, 0);
     }
 }
+*/
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -111,7 +113,7 @@ void __fastcall TNColumnTitle::Assign( TPersistent* Source )
         SortLevel = Title->sortLevel_;
         SortDesc = Title->sortDesc_;
     }
-	TColumnTitle::Assign( Source );
+    TColumnTitle::Assign( Source );
 }
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -159,7 +161,7 @@ void TNDBGridColumns::ResetTitleAttributes()
 
 TNColumn* TNDBGridColumns::ColumnByFieldName( String Name )
 {
-	for ( int Idx = 0 ; Idx < Count ; ++Idx ) {
+    for ( int Idx = 0 ; Idx < Count ; ++Idx ) {
         TNColumn* Column = TitleBtnItems[Idx];
         if ( Name == Column->FieldName )
             return Column;
@@ -190,7 +192,7 @@ int TNDBGridColumns::GetNextAvailableSortLevel()
         if ( SortLevel > ColumnIndex )
             ColumnIndex = SortLevel;
     }
-	return ColumnIndex + 1;
+    return ColumnIndex + 1;
 }
 //---------------------------------------------------------------------------
 
@@ -207,7 +209,7 @@ void TNDBGridColumns::SetColumnSettings( AnsiString Settings )
     unique_ptr<TMemoryStream> const MS( new TMemoryStream );
     MS->Write( Settings.c_str(), Settings.Length() );
     MS->Seek( 0, soFromBeginning );
-	LoadFromStream( MS.get() );
+    LoadFromStream( MS.get() );
 }
 //---------------------------------------------------------------------------
 
@@ -255,7 +257,7 @@ __fastcall TCustomNDBGrid::TCustomNDBGrid(TComponent* Owner)
       colDown_( -1 ), rowDown_( -1 ),
       onAdvTitleClick_( 0 ), onDrawTitle_( 0 ), onCanEditModify_( 0 ),
       oldLinkActiveValueAssigned_( false ), oldLinkActiveValue_( false ),
-	  orderByPrefix_( ORDER_BY_PREFIX_DEF ), titleBtnAutoSet_( false ),
+      orderByPrefix_( ORDER_BY_PREFIX_DEF ), titleBtnAutoSet_( false ),
       onBeforeAutoSet_( 0 ), onAfterAutoSet_( 0 ), onAdvTitleClicking_( 0 ),
       cellAutoHintEnabled_( false ), mouseInControl_( false ),
       titleHeight_( 0 ), sizingActive_( false ), onCellDblClick_( 0 ),
@@ -284,7 +286,7 @@ void TCustomNDBGrid::CreateArrows()
         imglistArrows_->AddMasked( Bmp.get(), clLtGray );
     }
 
-	if ( StyleServices()->Enabled ) {
+    if ( StyleServices()->Enabled ) {
         if ( StyleServices()->IsSystemStyle ) {
             AddArrows(
                 *imglistArrows_,
@@ -301,7 +303,7 @@ void TCustomNDBGrid::CreateArrows()
             AddArrows( *imglistArrows_, h, Color );
 
             LDetails =
-			   StyleServices()->GetElementDetails( tgFixedCellHot );
+               StyleServices()->GetElementDetails( tgFixedCellHot );
             StyleServices()->GetElementColor( LDetails, ecTextColor, Color );
             AddArrows( *imglistArrows_, h, Color );
 
@@ -332,7 +334,7 @@ void TCustomNDBGrid::AddArrows( TImageList& ImgList, NativeUInt Instance,
         CreateMappedRes(
             Instance, DownArrowResName.c_str(),
             &OldColor, 0, &Color, 0
-		);
+        );
 
     ImgList.AddMasked( Bmp.get(), Bmp->TransparentColor );
 }
@@ -397,7 +399,7 @@ void __fastcall TCustomNDBGrid::MouseUp( Controls::TMouseButton Button,
                     MC.X >= FirstDataCol ?
                       TitleBtnColumns->TitleBtnItems[MC.X - FirstDataCol]
                     :
-					  0;
+                      0;
                 if ( !sizingActive_ && Column ) {
                     if ( onAdvTitleClick_ ) {
                         onAdvTitleClick_( this, Button, Shift, X, Y, Column );
@@ -433,17 +435,17 @@ void __fastcall TCustomNDBGrid::DblClick()
 
     const TGridCoord Coord = MouseCoord( HitTest.X, HitTest.Y );
 
-	if ( Coord.X >= 0 && Coord.Y >= 0 ) {
-		TNDBGridCellDblClickLocation Where;
+    if ( Coord.X >= 0 && Coord.Y >= 0 ) {
+        TNDBGridCellDblClickLocation Where;
 
-		if ( Options.Contains( dgTitles ) && !Coord.Y ) {
-			Where = ncdclTitle;
-		}
-		else if ( Options.Contains( dgIndicator ) && !Coord.X ) {
-			Where = ncdclIndicator;
-		}
-		else {
-			Where = ncdclDataCell;
+        if ( Options.Contains( dgTitles ) && !Coord.Y ) {
+            Where = ncdclTitle;
+        }
+        else if ( Options.Contains( dgIndicator ) && !Coord.X ) {
+            Where = ncdclIndicator;
+        }
+        else {
+            Where = ncdclDataCell;
         }
         if ( onCellDblClick_ )
             onCellDblClick_( this, Where );
@@ -474,13 +476,13 @@ TDBGridColumns* __fastcall TCustomNDBGrid::CreateColumns()
 
 TNDBGridColumns* __fastcall TCustomNDBGrid::GeTNColumns() const
 {
-	return dynamic_cast<TNDBGridColumns*>( Columns );
+    return dynamic_cast<TNDBGridColumns*>( Columns );
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCustomNDBGrid::SeTNColumns( TNDBGridColumns* Val )
 {
-	Columns = Val;
+    Columns = Val;
 }
 //---------------------------------------------------------------------------
 
@@ -522,14 +524,14 @@ void __fastcall TCustomNDBGrid::NormalizeColumnIndexes()
         TNColumnTitle* Title;
         if ( Column ) {
             Title = Column->BtnColumnTitle;
-			Title->SortLevel = Level++;
+            Title->SortLevel = Level++;
         }
         else {
             Column = Columns->ColumnByOrigin( FieldName );
             if ( Column ) {
                 Title = Column->BtnColumnTitle;
                 Title->SortLevel = Level++;
-			}
+            }
         }
     }
 }
@@ -570,7 +572,7 @@ void __fastcall TCustomNDBGrid::RefreshDataset( TDataSet* DataSet )
         }
     }
     else if ( DataSet->Active ) {
-		TNDBGridSaveSettings const Snapshot( *this );
+        TNDBGridSaveSettings const Snapshot( *this );
         DataSet->Close();
         DataSet->Open();
     }
@@ -579,7 +581,7 @@ void __fastcall TCustomNDBGrid::RefreshDataset( TDataSet* DataSet )
 
 void __fastcall TCustomNDBGrid::ReadOrderByPrefix( TReader* const Reader )
 {
-	orderByPrefix_ = Reader->ReadString();
+    orderByPrefix_ = Reader->ReadString();
 }
 //---------------------------------------------------------------------------
 
@@ -618,7 +620,7 @@ void TCustomNDBGrid::TitleButtonsAutoSet( TMouseButton Button, TShiftState Shift
                 Title->SortLevel = 0;
             }
         }
-	}
+    }
     NormalizeColumnIndexes();
 }
 //---------------------------------------------------------------------------
@@ -647,38 +649,38 @@ void __fastcall TCustomNDBGrid::CheckColumnsConsistency()
     if ( DataSource ) {
         TDataSet* const DataSet = DataSource->DataSet;
         if ( DataSet ) {
-			int const FieldCount = DataSet->Fields->Count;
-			int const ColumnCount = TitleBtnColumns->Count;
-			if ( ColumnCount == FieldCount ) {
-				vector<String> FieldList;
-				for ( int Idx = 0 ; Idx < FieldCount ; ++Idx )
-					FieldList.push_back( DataSet->Fields->Fields[Idx]->FieldName );
-				vector<String> ColumnList;
-				for ( int Idx = 0 ; Idx < FieldCount ; ++Idx )
-					ColumnList.push_back( TitleBtnColumns->Items[Idx]->FieldName );
-				sort( FieldList.begin(), FieldList.end() );
-				sort( ColumnList.begin(), ColumnList.end() );
-				if ( equal( FieldList.begin(), FieldList.end(), ColumnList.begin() ) )
-					return;
-			}
-		}
-		TitleBtnColumns->Clear();
-	}
+            int const FieldCount = DataSet->Fields->Count;
+            int const ColumnCount = TitleBtnColumns->Count;
+            if ( ColumnCount == FieldCount ) {
+                vector<String> FieldList;
+                for ( int Idx = 0 ; Idx < FieldCount ; ++Idx )
+                    FieldList.push_back( DataSet->Fields->Fields[Idx]->FieldName );
+                vector<String> ColumnList;
+                for ( int Idx = 0 ; Idx < FieldCount ; ++Idx )
+                    ColumnList.push_back( TitleBtnColumns->Items[Idx]->FieldName );
+                sort( FieldList.begin(), FieldList.end() );
+                sort( ColumnList.begin(), ColumnList.end() );
+                if ( equal( FieldList.begin(), FieldList.end(), ColumnList.begin() ) )
+                    return;
+            }
+        }
+        TitleBtnColumns->Clear();
+    }
  }
 //---------------------------------------------------------------------------
 
 void TCustomNDBGrid::ClearGridHintWindow()
 {
-	gridHintWindow_.reset();
-	gridCurrentHintCol_ = -1;
-	gridCurrentHintRow_ = -1;
+    gridHintWindow_.reset();
+    gridCurrentHintCol_ = -1;
+    gridCurrentHintRow_ = -1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCustomNDBGrid::MouseMove( Classes::TShiftState Shift, int X, int Y )
 {
-	TCustomDBGrid::MouseMove( Shift, X, Y );
-	ShowAutoHintIfNeeded( X, Y );
+    TCustomDBGrid::MouseMove( Shift, X, Y );
+    ShowAutoHintIfNeeded( X, Y );
 }
 //---------------------------------------------------------------------------
 
@@ -898,7 +900,7 @@ void TCustomNDBGrid::DoDrawIndicator( int ACol, int ARow,
                 }
                 TryFinallyMultiSelected( *DataLink );
 
-				DataLink->ActiveRecord = ARow - FirstDataRow;
+                DataLink->ActiveRecord = ARow - FirstDataRow;
                 MultiSelected = RowIsMultiSelected();
             }
 
@@ -996,7 +998,7 @@ void TCustomNDBGrid::WriteText( TCanvas* ACanvas,
 {
     static const StaticArray<int, 3> AlignFlags = {
         DT_LEFT | DT_WORDBREAK | DT_EXPANDTABS | DT_NOPREFIX,
-		DT_RIGHT | DT_WORDBREAK | DT_EXPANDTABS | DT_NOPREFIX,
+        DT_RIGHT | DT_WORDBREAK | DT_EXPANDTABS | DT_NOPREFIX,
         DT_CENTER | DT_WORDBREAK | DT_EXPANDTABS | DT_NOPREFIX
     };
     static const StaticArray<int, 2> RTL = { 0, DT_RTLREADING };
@@ -1044,7 +1046,7 @@ void TCustomNDBGrid::WriteText( TCanvas* ACanvas,
         DBCanvas->Brush->Style = bsSolid;
         DBCanvas->FillRect( B );
         SetBkMode( DBCanvas->Handle, TRANSPARENT );
-		if ( ACanvas->CanvasOrientation == coRightToLeft ) {
+        if ( ACanvas->CanvasOrientation == coRightToLeft ) {
             ChangeBiDiModeAlignment( Alignment );
         }
         DrawText( DBCanvas->Handle, Text.c_str(), Text.Length(), &R,
@@ -1066,7 +1068,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
 {
     static const StaticArray<StaticArray<int, 2>, 2> ScrollArrows = {
       { { DFCS_SCROLLRIGHT, DFCS_SCROLLLEFT },
-		{ DFCS_SCROLLLEFT, DFCS_SCROLLRIGHT }
+        { DFCS_SCROLLLEFT, DFCS_SCROLLRIGHT }
       }
     };
 
@@ -1093,7 +1095,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
             InflateRect( ARect, -1, -1 );
             LFrameOffs = 1;
         }
-	}
+    }
 
     System::Types::TRect TextRect = TitleRect;
     int I = GetSystemMetrics( SM_CXHSCROLL );
@@ -1113,8 +1115,9 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
             InflateRect( ButtonRect, 1, 1 );
             /* DrawFrameControl doesn't draw properly when orienatation has changed.
               It draws as ExtTextOut does. */
-            bool InBiDiMode = coRightToLeft;
-			if ( InBiDiMode ) { // stretch the arrows box
+            bool InBiDiMode =
+                Canvas->CanvasOrientation == coRightToLeft;
+            if ( InBiDiMode ) { // stretch the arrows box
                 ButtonRect.Right =
                     ButtonRect.Right + GetSystemMetrics( SM_CXHSCROLL ) + 4;
             }
@@ -1141,7 +1144,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
     enum class OrderByIndicator {
         None, WindowUp, WindowDown, ThemedNormalUp, ThemedNormalDown,
         ThemedHotUp, ThemedHotDown, ThemedPressedUp, ThemedPressedDown,
-	};
+    };
 
     OrderByIndicator OrderByIndicatorValue = OrderByIndicator::None;
 
@@ -1162,7 +1165,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
                               OrderByIndicator::ThemedNormalUp;
                     }
                     else {
-						if ( AState.Contains( gdPressed ) ) {
+                        if ( AState.Contains( gdPressed ) ) {
                             OrderByIndicatorValue =
                                 Down ?
                                   OrderByIndicator::ThemedPressedDown
@@ -1189,7 +1192,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
                     OrderByIndicatorValue =
                         Down ?
                           OrderByIndicator::WindowDown
-						:
+                        :
                           OrderByIndicator::WindowUp;
                 }
                 if ( OrderByIndicatorValue != OrderByIndicator::None ) {
@@ -1210,7 +1213,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
                 }
             }
         }
-	}
+    }
 
     if ( OrderByIndicatorValue != OrderByIndicator::None ) {
         if ( TitleRect.Width() - Canvas->TextWidth( MasterCol->Title->Caption ) >= DeltaTextRect + 12 ) {
@@ -1237,7 +1240,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
             ( Rect.Top + Rect.Bottom - imglistArrows_->Height ) / 2 + 1,
             static_cast<int>( OrderByIndicatorValue ) - 1
         );
-		if ( SortTextWidth ) {
+        if ( SortTextWidth ) {
             const int SortTextX = Rect.Left + imglistArrows_->Width + 4;
             if ( AState.Contains( gdPressed ) ) {
                 ++SortTextWidth;
@@ -1258,7 +1261,7 @@ void TCustomNDBGrid::DrawTitleCell( int ACol, int ARow,
     TGridDrawingStyle InternalDrawingStyle = DrawingStyle;
     if ( ( DrawingStyle == gdsThemed ) && !ThemeControl( this ) ) {
         InternalDrawingStyle = gdsClassic;
-	}
+    }
 
     if ( ( Options * LinesOpts == LinesOpts ) &&
          ( InternalDrawingStyle == gdsClassic ) &&

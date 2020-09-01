@@ -13,6 +13,8 @@
 
 #include <memory>
 
+#pragma resource "RuntimeRes.res"
+
 //---------------------------------------------------------------------------
 
 class PACKAGE TNColumnTitle;
@@ -44,7 +46,7 @@ public:
     virtual void __fastcall Assign( TPersistent* Source );
     void __fastcall ResetAttributes();
 __published:
-	__property int SortLevel = { read = sortLevel_,
+    __property int SortLevel = { read = sortLevel_,
                                  write = SetSortLevel, default = -1 };
     __property bool SortDesc = { read = sortDesc_,
                                  write = SetSortDesc, default = 0 };
@@ -118,11 +120,11 @@ typedef void __fastcall (__closure *TNDBGridCanEditModifyEvent)(
 );
 
 typedef void __fastcall (__closure *TNDBGRIDBeforeAutosetEvent)(
-	System::TObject* Sender, bool& SaveSettings
+    System::TObject* Sender, bool& SaveSettings
 );
 
 typedef void __fastcall (__closure *TNDBGRIDBeforeAutoHintEvent)(
-	System::TObject* Sender, bool& Allow
+    System::TObject* Sender, bool& Allow
 );
 
 enum TNDBGridCellDblClickLocation { ncdclDataCell, ncdclIndicator, ncdclTitle };
@@ -139,7 +141,7 @@ private:
     int colDown_;
     int rowDown_;
     bool sizingActive_;
-	std::unique_ptr<Graphics::TBitmap> const titleUpArrow_;
+    std::unique_ptr<Graphics::TBitmap> const titleUpArrow_;
     std::unique_ptr<Graphics::TBitmap> const titleDownArrow_;
     TNDBGridClickEvent onAdvTitleClick_;
     TNDBGridDrawTitleEvent onDrawTitle_;
@@ -150,9 +152,9 @@ private:
     String orderByPrefix_;
     bool titleBtnAutoSet_;
     TNDBGridDrawIndicatorEvent onDrawIndicator_;
-	TNDBGRIDBeforeAutosetEvent onBeforeAutoSet_;
-	TNDBGRIDBeforeAutoHintEvent onBeforeAutoHint_;
-	TNotifyEvent onAfterAutoSet_;
+    TNDBGRIDBeforeAutosetEvent onBeforeAutoSet_;
+    TNDBGRIDBeforeAutoHintEvent onBeforeAutoHint_;
+    TNotifyEvent onAfterAutoSet_;
     TNDBGridClickingEvent onAdvTitleClicking_;
     std::unique_ptr<THintWindow> gridHintWindow_;
     int gridCurrentHintCol_;
@@ -171,7 +173,7 @@ private:
     void HdrButton( int X, int Y );
     TNDBGridColumns* __fastcall GeTNColumns() const;
     void __fastcall SeTNColumns( TNDBGridColumns* Val );
-	void __fastcall ReadOrderByPrefix( TReader* const Reader );
+    void __fastcall ReadOrderByPrefix( TReader* const Reader );
     void __fastcall WriteOrderByPrefix( TWriter* const Writer );
     void TitleButtonsAutoSet( TMouseButton Button, TShiftState Shift,
                               int X, int Y, TNColumn *Column );
@@ -223,13 +225,13 @@ protected:
     __property bool TitleBtnAutoSet = {
         read = titleBtnAutoSet_, write = titleBtnAutoSet_
     };
-	__property TNDBGRIDBeforeAutosetEvent OnBeforeAutoSet = {
-		read = onBeforeAutoSet_, write = onBeforeAutoSet_
-	};
-	__property TNDBGRIDBeforeAutosetEvent OnBeforeAutoHint = {
-		read = onBeforeAutoHint_, write = onBeforeAutoHint_
-	};
-	__property TNotifyEvent OnAfterAutoSet = {
+    __property TNDBGRIDBeforeAutosetEvent OnBeforeAutoSet = {
+        read = onBeforeAutoSet_, write = onBeforeAutoSet_
+    };
+    __property TNDBGRIDBeforeAutosetEvent OnBeforeAutoHint = {
+        read = onBeforeAutoHint_, write = onBeforeAutoHint_
+    };
+    __property TNotifyEvent OnAfterAutoSet = {
         read = onAfterAutoSet_, write = onAfterAutoSet_
     };
     __property TNDBGridClickingEvent OnAdvTitleClicking = {
@@ -276,7 +278,7 @@ __published:
 
 class TNDBGridSaveSettings {
 public:
-	TNDBGridSaveSettings( TCustomNDBGrid& Grid )
+    TNDBGridSaveSettings( TCustomNDBGrid& Grid )
         : grid_( Grid ),
           columns_( Grid.TitleBtnColumns->GetColumnSettingsAsBytes() ),
           leftCol_( Grid.LeftCol ), fixedCols_( Grid.FixedCols ) {}
@@ -340,7 +342,7 @@ __published:
     __property OnAdvTitleClick;
     __property OnAdvTitleClicking;
     __property OnAfterAutoSet;
-	__property OnBeforeAutoSet;
+    __property OnBeforeAutoSet;
     __property OnBeforeAutoHint;
     __property OnCanEditModify;
     __property OnCellClick;
@@ -363,15 +365,15 @@ __published:
     __property OnKeyDown;
     __property OnKeyPress;
     __property OnKeyUp;
-	__property OnMouseActivate;
-	__property OnMouseDown;
-	__property OnMouseEnter;
-	__property OnMouseLeave;
-	__property OnMouseMove;
-	__property OnMouseUp;
-	__property OnMouseWheel;
-	__property OnMouseWheelDown;
-	__property OnMouseWheelUp;
+    __property OnMouseActivate;
+    __property OnMouseDown;
+    __property OnMouseEnter;
+    __property OnMouseLeave;
+    __property OnMouseMove;
+    __property OnMouseUp;
+    __property OnMouseWheel;
+    __property OnMouseWheelDown;
+    __property OnMouseWheelUp;
     __property OnStartDock;
     __property OnStartDrag;
     __property OnTitleClick;
