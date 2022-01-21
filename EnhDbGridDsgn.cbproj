@@ -57,7 +57,7 @@
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <IncludePath>..\..\..\..\..\Public\Documents\Embarcadero\Studio\14.0\NDBGRID\;$(IncludePath)</IncludePath>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <DllSuffix>280</DllSuffix>
+        <DllSuffix>$(Auto)</DllSuffix>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <SanitizedProjectName>EnhDbGridDsgn</SanitizedProjectName>
         <ProjectType>CppPackage</ProjectType>

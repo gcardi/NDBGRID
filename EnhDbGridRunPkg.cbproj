@@ -68,7 +68,7 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <Multithreaded>true</Multithreaded>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
-        <DllSuffix>280</DllSuffix>
+        <DllSuffix>$(Auto)</DllSuffix>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
