@@ -12,3 +12,5 @@ Please, ensure to add macro $(AUTO) to Environment variables override according 
 - ...
 
 <img src="docs/assets/images/Scrnsht1.png" alt="Comparated grid feature example" border="0"></a>
+
+<img src="docs/assets/images/Scrnsht2.png" alt="Comparated grid feature example" border="0"></a>
