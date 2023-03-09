@@ -13,7 +13,7 @@ using std::stable_sort;
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 
-__fastcall TColumnTitleAttrsCont::TColumnTitleAttrsCont( TNDBGridColumns* Columns )
+TColumnTitleAttrsCont::TColumnTitleAttrsCont( TNDBGridColumns* Columns )
 {
     for ( int Idx = 0 ; Idx < Columns->Count ; ++Idx ) {
         TNColumn* const Column = Columns->TitleBtnItems[Idx];

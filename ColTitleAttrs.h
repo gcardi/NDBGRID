@@ -43,7 +43,7 @@ inline bool operator<( TColumnTitleAttrs const & T1, TColumnTitleAttrs const & T
 
 class TColumnTitleAttrsCont {
 public:
-    __fastcall TColumnTitleAttrsCont( TNDBGridColumns* Columns );
+    TColumnTitleAttrsCont( TNDBGridColumns* Columns );
     __property int Count = { read = GetCount };
     TColumnTitleAttrs& operator[]( int Idx ) { return triplet_[Idx]; }
 private:
