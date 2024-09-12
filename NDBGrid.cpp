@@ -272,17 +272,17 @@ void TCustomNDBGrid::CreateArrows()
 {
     imglistArrows_.reset( new TImageList( 0 ) );
 
-    const unsigned h = reinterpret_cast<unsigned>( HInstance );
+	auto h = reinterpret_cast<THandle>( HInstance );
 
-    {
+	{
         unique_ptr<TBitmap> Bmp( new TBitmap() );
-        Bmp->LoadFromResourceName( h, _T( "NTITLE_UP_ARROW" ) );
+		Bmp->LoadFromResourceName( h, _D( "NTITLE_UP_ARROW" ) );
         imglistArrows_->Width = Bmp->Width;
         imglistArrows_->Height = Bmp->Height;
 
         imglistArrows_->AddMasked( Bmp.get(), clLtGray );
 
-        Bmp->LoadFromResourceName( h, _T( "NTITLE_DOWN_ARROW" ) );
+		Bmp->LoadFromResourceName( h, _D( "NTITLE_DOWN_ARROW" ) );
         imglistArrows_->AddMasked( Bmp.get(), clLtGray );
     }
 
@@ -546,16 +546,16 @@ String __fastcall TCustomNDBGrid::GetOrderByClause() const
 
     for ( int Idx( 0 ) ; Idx < ColumnTitleAttributes.Count ; ++Idx ) {
         if ( !Result.IsEmpty() )
-            Result += _T( ", " );
+			Result += _D( ", " );
         Result += ColumnTitleAttributes[Idx].FieldName;
         if ( ColumnTitleAttributes[Idx].Descending )
-            Result += _T( " desc" );
+			Result += _D( " desc" );
     }
 
     if ( !Result.IsEmpty() ) {
         String OrderByPre = orderByPrefix_.Trim();
         if ( !OrderByPre.IsEmpty() )
-            OrderByPre += _T( " " );
+			OrderByPre += _D( " " );
         Result = OrderByPre + Result;
     }
     return Result;
@@ -595,7 +595,7 @@ void __fastcall TCustomNDBGrid::DefineProperties( TFiler *Filer )
 {
     TComponent::DefineProperties( Filer );
     Filer->DefineProperty(
-        _T( "OrderByPrefix" ),
+		_D( "OrderByPrefix" ),
         ReadOrderByPrefix, WriteOrderByPrefix,
         orderByPrefix_ != String( ORDER_BY_PREFIX_DEF )
     );
@@ -738,7 +738,7 @@ void TCustomNDBGrid::ShowAutoHintIfNeeded( int X, int Y )
 /*
 ::OutputDebugString(
     Format(
-        _T( "" )
+		_D( "" )
         "%d - MC.X=%d, MC.Y=%d, CRect{ %d,%d,%d,%d, W=%d, h=%d }, "
         "TextWidth=%d, DisplayText:\"%s\"",
         ARRAYOFCONST( (

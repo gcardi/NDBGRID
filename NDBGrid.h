@@ -168,8 +168,8 @@ private:
     void CreateArrows();
     void AddArrows( TImageList& ImgList, NativeUInt Instance,
                     TColor Color, TColor OldColor = clBlack,
-                    String UpArrowResName = _T( "NTITLE_UP_ARROW_FLAT" ),
-                    String DownArrowResName = _T( "NTITLE_DOWN_ARROW_FLAT" ) );
+					String UpArrowResName = _D( "NTITLE_UP_ARROW_FLAT" ),
+                    String DownArrowResName = _D( "NTITLE_DOWN_ARROW_FLAT" ) );
     void HdrButton( int X, int Y );
     TNDBGridColumns* __fastcall GeTNColumns() const;
     void __fastcall SeTNColumns( TNDBGridColumns* Val );

@@ -9,6 +9,9 @@
         <Projects Include="EnhDbGridDsgn.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="EnhDbGridRunPkgBCC64X.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="EnhDbGridDsgn:Make">
         <MSBuild Projects="EnhDbGridDsgn.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="EnhDbGridRunPkgBCC64X">
+        <MSBuild Projects="EnhDbGridRunPkgBCC64X.cbproj"/>
+    </Target>
+    <Target Name="EnhDbGridRunPkgBCC64X:Clean">
+        <MSBuild Projects="EnhDbGridRunPkgBCC64X.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnhDbGridRunPkgBCC64X:Make">
+        <MSBuild Projects="EnhDbGridRunPkgBCC64X.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="EnhDbGridRunPkg;EnhDbGridDsgn"/>
+        <CallTarget Targets="EnhDbGridRunPkg;EnhDbGridDsgn;EnhDbGridRunPkgBCC64X"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="EnhDbGridRunPkg:Clean;EnhDbGridDsgn:Clean"/>
+        <CallTarget Targets="EnhDbGridRunPkg:Clean;EnhDbGridDsgn:Clean;EnhDbGridRunPkgBCC64X:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="EnhDbGridRunPkg:Make;EnhDbGridDsgn:Make"/>
+        <CallTarget Targets="EnhDbGridRunPkg:Make;EnhDbGridDsgn:Make;EnhDbGridRunPkgBCC64X:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
