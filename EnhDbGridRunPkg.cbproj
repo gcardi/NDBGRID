@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{0AAF32DC-22C7-4C78-BB72-4C74605187DB}</ProjectGuid>
-        <ProjectVersion>20.2</ProjectVersion>
+        <ProjectVersion>20.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <MainSource>EnhDbGridRunPkg.cpp</MainSource>
         <Base>True</Base>
@@ -140,9 +140,6 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1)'!='' And '$(FileToCompile)'=='RuntimeRes.rc'">
-        <BRCC_OutputDir>$(BDSCOMMONDIR)\NDBGRID</BRCC_OutputDir>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
@@ -159,9 +156,6 @@
         <BCC_OptimizeMaximum>true</BCC_OptimizeMaximum>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2)'!='' And '$(FileToCompile)'=='RuntimeRes.rc'">
-        <BRCC_OutputDir>$(BDSCOMMONDIR)\NDBGRID</BRCC_OutputDir>
-    </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="ColTitleAttrs.cpp">
             <DependentOn>ColTitleAttrs.h</DependentOn>
@@ -177,14 +171,25 @@
             <DependentOn>NDBGrid.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <RcItem Include="Risorse\DownArrow.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>NTITLE_DOWN_ARROW</ResourceId>
+        </RcItem>
+        <RcItem Include="Risorse\DownArrowFlat.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>NTITLE_DOWN_ARROW_FLAT</ResourceId>
+        </RcItem>
+        <RcItem Include="Risorse\UpArrow.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>NTITLE_UP_ARROW</ResourceId>
+        </RcItem>
+        <RcItem Include="Risorse\UpArrowFlat.bmp">
+            <ResourceType>BITMAP</ResourceType>
+            <ResourceId>NTITLE_UP_ARROW_FLAT</ResourceId>
+        </RcItem>
         <PackageImport Include="rtl.bpi">
             <BuildOrder>1</BuildOrder>
         </PackageImport>
-        <ResourceCompile Include="RuntimeRes.rc">
-            <Form>RuntimeRes.res</Form>
-            <BuildOrder>2</BuildOrder>
-            <OptionOverrides>true</OptionOverrides>
-        </ResourceCompile>
         <PackageImport Include="vcl.bpi">
             <BuildOrder>8</BuildOrder>
         </PackageImport>
@@ -280,6 +285,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64370.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -307,6 +322,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32370.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c240.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c240mt.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c250.dll" Class="DependencyModule"/>
@@ -327,8 +352,29 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c370.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\BPL\EnhDbGridRunPkg270.bpl" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="..\BPL\EnhDbGridRunPkg270.tds" Configuration="Debug" Class="DebugSymbols"/>
+                <DeployFile LocalName="..\BPL\EnhDbGridRunPkg370.bpl" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>EnhDbGridRunPkg.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\Bpl\Win64x\EnhDbGridRunPkg370.bpl" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64x">
+                        <RemoteName>EnhDbGridRunPkg.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>
@@ -436,6 +482,16 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV35">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v35</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v35</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

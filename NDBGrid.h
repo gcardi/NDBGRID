@@ -13,7 +13,7 @@
 
 #include <memory>
 
-#pragma resource "RuntimeRes.res"
+#pragma resource "EnhDbGridRunPkg_resources.res"
 
 //---------------------------------------------------------------------------
 
@@ -73,11 +73,13 @@ public:
     TNColumn* ColumnByFieldName( String FieldName );
     TNColumn* ColumnByOrigin( String Origin );
 
+    /*
     AnsiString GetColumnSettings()
     _DEPRECATED_ATTRIBUTE1("Use GetColumnSettingsAsBytes instead");
 
     void SetColumnSettings( AnsiString Settings )
     _DEPRECATED_ATTRIBUTE1("Use SetColumnSettingsAsBytes instead");
+    */
 
     TBytes GetColumnSettingsAsBytes();
     void SetColumnSettingsAsBytes( TBytes Settings );

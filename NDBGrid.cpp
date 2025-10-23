@@ -196,6 +196,7 @@ int TNDBGridColumns::GetNextAvailableSortLevel()
 }
 //---------------------------------------------------------------------------
 
+/*
 AnsiString TNDBGridColumns::GetColumnSettings()
 {
     unique_ptr<TMemoryStream> const MS( new TMemoryStream );
@@ -212,6 +213,7 @@ void TNDBGridColumns::SetColumnSettings( AnsiString Settings )
     LoadFromStream( MS.get() );
 }
 //---------------------------------------------------------------------------
+*/
 
 TBytes TNDBGridColumns::GetColumnSettingsAsBytes()
 {
@@ -755,7 +757,9 @@ void TCustomNDBGrid::ShowAutoHintIfNeeded( int X, int Y )
                         if ( !gridHintWindow_.get() ) {
                             gridHintWindow_.reset( new THintWindow( (TComponent*)0 ) );
                             gridHintWindow_->Color = Color;
-                            gridHintWindow_->Canvas->Font->Assign( Font );
+                            //gridHintWindow_->Canvas->Font->Assign( Font );
+                            //gridHintWindow_->Font->Assign( Column.Font );
+                            gridHintWindow_->Canvas->Font->Assign( Column.Font );
 
                             TPoint const CellScreenPos =
                                 ClientToScreen( Types::TPoint( CRect.Left, CRect.Top ) );

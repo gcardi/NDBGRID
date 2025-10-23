@@ -10,8 +10,6 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
@@ -79,37 +77,31 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'CompanyName'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactName'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactTitle'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Address'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'City'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Region'
-          Width = 64
           Visible = True
         end
         item
@@ -120,19 +112,16 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'Country'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Phone'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Fax'
-          Width = 64
           Visible = True
         end>
       DataSource = DataSource1
@@ -197,37 +186,31 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'CompanyName'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactName'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactTitle'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Address'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'City'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Region'
-          Width = 64
           Visible = True
         end
         item
@@ -238,19 +221,16 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'Country'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Phone'
-          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Fax'
-          Width = 64
           Visible = True
         end>
     end
@@ -292,7 +272,7 @@ object Form1: TForm1
       Align = alLeft
       Caption = 'ActionMainMenuBar1'
       Color = clMenuBar
-      ColorMap.DisabledFontColor = 7171437
+      ColorMap.DisabledFontColor = 10461087
       ColorMap.HighlightColor = clWhite
       ColorMap.BtnSelectedFont = clBlack
       ColorMap.UnusedColor = clWhite
