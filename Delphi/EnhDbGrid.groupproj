@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{FCDE64EF-CEF1-4899-8866-375FC6EBD546}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="EnhDbGridRunPkg.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="EnhDbGridDsgn.dproj">
+            <Dependencies>EnhDbGridRunPkg.dproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="EnhDbGridRunPkg">
+        <MSBuild Projects="EnhDbGridRunPkg.dproj"/>
+    </Target>
+    <Target Name="EnhDbGridRunPkg:Clean">
+        <MSBuild Projects="EnhDbGridRunPkg.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnhDbGridRunPkg:Make">
+        <MSBuild Projects="EnhDbGridRunPkg.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="EnhDbGridDsgn">
+        <MSBuild Projects="EnhDbGridDsgn.dproj"/>
+    </Target>
+    <Target Name="EnhDbGridDsgn:Clean">
+        <MSBuild Projects="EnhDbGridDsgn.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EnhDbGridDsgn:Make">
+        <MSBuild Projects="EnhDbGridDsgn.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="EnhDbGridRunPkg;EnhDbGridDsgn"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="EnhDbGridRunPkg:Clean;EnhDbGridDsgn:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="EnhDbGridRunPkg:Make;EnhDbGridDsgn:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
