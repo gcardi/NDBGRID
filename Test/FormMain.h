@@ -27,7 +27,7 @@
 #include <Vcl.StdActns.hpp>
 #include <Vcl.ToolWin.hpp>
 #include <Vcl.ImgList.hpp>
-#include <NDBGrid.h>
+#include <NDBGrid.hpp>
 #include <FireDAC.Comp.UI.hpp>
 #include <FireDAC.Stan.Intf.hpp>
 #include <FireDAC.UI.Intf.hpp>

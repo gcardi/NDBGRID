@@ -77,31 +77,37 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'CompanyName'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactName'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactTitle'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Address'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'City'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Region'
+          Width = 64
           Visible = True
         end
         item
@@ -112,20 +118,22 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'Country'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Phone'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Fax'
+          Width = 64
           Visible = True
         end>
       DataSource = DataSource1
-      FixedColor = clBtnFace
       LeftCol = 1
       OnAfterAutoSet = NDBGrid1AfterAutoSet
       OnMouseMove = NDBGrid1MouseMove
@@ -137,6 +145,71 @@ object Form1: TForm1
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
       TitleHeight = -1
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'CustomerID'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CompanyName'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ContactName'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ContactTitle'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Address'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'City'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Region'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PostalCode'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Country'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Phone'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Fax'
+          Width = 64
+          Visible = True
+        end>
     end
     object Panel4: TPanel
       Left = 0
@@ -186,31 +259,37 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'CompanyName'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactName'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ContactTitle'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Address'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'City'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Region'
+          Width = 64
           Visible = True
         end
         item
@@ -221,16 +300,19 @@ object Form1: TForm1
         item
           Expanded = False
           FieldName = 'Country'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Phone'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Fax'
+          Width = 64
           Visible = True
         end>
     end

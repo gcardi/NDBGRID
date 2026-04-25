@@ -25,6 +25,7 @@
 #include <FireDAC.UI.Intf.hpp>
 #include <FireDAC.VCLUI.Wait.hpp>
 #include <FireDAC.ConsoleUI.Wait.hpp>
+#include <FireDAC.Phys.SQLiteWrapper.Stat.hpp>
 //---------------------------------------------------------------------------
 class TdmDatabase : public TDataModule
 {

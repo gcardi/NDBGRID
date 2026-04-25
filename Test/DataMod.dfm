@@ -1,13 +1,13 @@
 object dmDatabase: TdmDatabase
-  OldCreateOrder = False
   Height = 299
   Width = 334
   object FDConnection1: TFDConnection
     Params.Strings = (
       
-        'Database=C:\Users\Public\Documents\Embarcadero\Studio\19.0\Sampl' +
-        'es\data\FDDemo.sdb'
+        'Database=C:\Users\Public\Documents\Embarcadero\Studio\37.0\Sampl' +
+        'es\Data\fddemo.sdb'
       'DriverID=SQLite')
+    Connected = True
     LoginPrompt = False
     Left = 88
     Top = 120
