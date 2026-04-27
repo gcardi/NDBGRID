@@ -7,7 +7,7 @@
         <Projects Include="EnhDbGridRunPkg.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="EnhDbGridDsgn.dproj">
+        <Projects Include="EnhDbGridDsgnPkg.dproj">
             <Dependencies>EnhDbGridRunPkg.dproj</Dependencies>
         </Projects>
     </ItemGroup>
@@ -27,23 +27,23 @@
     <Target Name="EnhDbGridRunPkg:Make">
         <MSBuild Projects="EnhDbGridRunPkg.dproj" Targets="Make"/>
     </Target>
-    <Target Name="EnhDbGridDsgn">
-        <MSBuild Projects="EnhDbGridDsgn.dproj"/>
+    <Target Name="EnhDbGridDsgnPkg">
+        <MSBuild Projects="EnhDbGridDsgnPkg.dproj"/>
     </Target>
-    <Target Name="EnhDbGridDsgn:Clean">
-        <MSBuild Projects="EnhDbGridDsgn.dproj" Targets="Clean"/>
+    <Target Name="EnhDbGridDsgnPkg:Clean">
+        <MSBuild Projects="EnhDbGridDsgnPkg.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="EnhDbGridDsgn:Make">
-        <MSBuild Projects="EnhDbGridDsgn.dproj" Targets="Make"/>
+    <Target Name="EnhDbGridDsgnPkg:Make">
+        <MSBuild Projects="EnhDbGridDsgnPkg.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="EnhDbGridRunPkg;EnhDbGridDsgn"/>
+        <CallTarget Targets="EnhDbGridRunPkg;EnhDbGridDsgnPkg"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="EnhDbGridRunPkg:Clean;EnhDbGridDsgn:Clean"/>
+        <CallTarget Targets="EnhDbGridRunPkg:Clean;EnhDbGridDsgnPkg:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="EnhDbGridRunPkg:Make;EnhDbGridDsgn:Make"/>
+        <CallTarget Targets="EnhDbGridRunPkg:Make;EnhDbGridDsgnPkg:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

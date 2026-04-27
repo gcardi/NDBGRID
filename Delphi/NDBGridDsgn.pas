@@ -7,7 +7,7 @@ uses
   DesignIntf, DesignEditors,
   NDBGrid, ComponentEditors;
 
-{$R EnhDbGridDsgn_resources.res}
+{$R EnhDbGridDsgnPkg_resources.res}
 
 type
   TNDBGridComponentEditor = class(TComponentEditor)

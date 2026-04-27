@@ -138,8 +138,4 @@
     </ProjectExtensions>
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
-    <Target Name="CopyResForCpp" AfterTargets="Build">
-        <Copy SourceFiles="EnhDbGridRunPkg_resources.res" DestinationFolder="$(DCC_DcpOutput)" SkipUnchangedFiles="true" Condition="Exists('EnhDbGridRunPkg_resources.res')"/>
-        <Copy SourceFiles="EnhDbGridRunPkg_resources.res;$(DCC_DcpOutput)EnhDbGridRunPkg.lib;$(DCC_DcpOutput)EnhDbGridRunPkg.bpi" DestinationFolder="$(DCC_DcpOutput)$(Config)" SkipUnchangedFiles="true" Condition="'$(Platform)'=='Win64x'"/>
-    </Target>
 </Project>

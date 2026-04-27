@@ -3,13 +3,13 @@
         <ProjectGuid>{2EC3474C-3CE0-454E-9FED-376FA52A51BB}</ProjectGuid>
         <ProjectVersion>20.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
-        <MainSource>EnhDbGridDsgn.dpk</MainSource>
+        <MainSource>EnhDbGridDsgnPkg.dpk</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1048579</TargetedPlatforms>
         <AppType>Package</AppType>
-        <ProjectName Condition="'$(ProjectName)'==''">EnhDbGridDsgn</ProjectName>
+        <ProjectName Condition="'$(ProjectName)'==''">EnhDbGridDsgnPkg</ProjectName>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>
     </PropertyGroup>
@@ -53,7 +53,7 @@
         <DCC_UsePackage>rtl;vcl;vcldb;vclimg;designide;EnhDbGridRunPkg;$(DCC_UsePackage)</DCC_UsePackage>
         <DesignOnlyPackage>true</DesignOnlyPackage>
         <DllSuffix>$(Auto)</DllSuffix>
-        <SanitizedProjectName>EnhDbGridDsgn</SanitizedProjectName>
+        <SanitizedProjectName>EnhDbGridDsgnPkg</SanitizedProjectName>
         <VerInfo_Locale>1040</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=Enhanced DBGrid design-time package;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <GenDll>true</GenDll>
@@ -101,7 +101,7 @@
         <DCCReference Include="EnhDbGridRunPkg.dcp"/>
         <DCCReference Include="NDBGridDsgn.pas"/>
         <DCCReference Include="ComponentEditors.pas"/>
-        <RcCompile Include="EnhDbGridDsgn_resources.rc"/>
+        <RcCompile Include="EnhDbGridDsgnPkg_resources.rc"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -120,7 +120,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">EnhDbGridDsgn.dpk</Source>
+                    <Source Name="MainSource">EnhDbGridDsgnPkg.dpk</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
@@ -139,8 +139,4 @@
     </ProjectExtensions>
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
-    <Target Name="CopyResForCpp" AfterTargets="Build">
-        <Copy SourceFiles="EnhDbGridDsgn_resources.res" DestinationFolder="$(DCC_DcpOutput)" SkipUnchangedFiles="true" Condition="Exists('EnhDbGridDsgn_resources.res')"/>
-        <Copy SourceFiles="EnhDbGridDsgn_resources.res" DestinationFolder="$(DCC_DcpOutput)$(Config)" SkipUnchangedFiles="true" Condition="'$(Platform)'=='Win64x' And Exists('EnhDbGridDsgn_resources.res')"/>
-    </Target>
 </Project>
