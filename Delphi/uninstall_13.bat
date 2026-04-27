@@ -27,6 +27,8 @@ set "DSGN_PKG=EnhDbGridDsgnPkg"
 :: {$LIBSUFFIX AUTO} value for this RAD Studio version (see install_13.bat).
 set "LIB_SUFFIX=370"
 
+set "SCRIPT_DIR=%~dp0"
+
 :: ===========================================================================
 :: Sanity checks + MSBuild env (needed for $BDSCOMMONDIR)
 :: ===========================================================================
@@ -82,6 +84,18 @@ for %%D in (
   call :rmpat %%D "EnhDbGridDsgn*"
 )
 
+:: ===========================================================================
+:: Remove the runtime source folder from the IDE's Library Search Path
+:: (no-op if absent or already cleaned up).
+:: ===========================================================================
+set "SOURCE_DIR=%SCRIPT_DIR:~0,-1%"
+
+echo.
+echo === Updating IDE Library Search Path ===
+for %%P in (Win32 Win64 Win64x) do (
+  call :libpath_del "%BDS_VERSION%" "%%P" "%SOURCE_DIR%"
+)
+
 echo.
 echo Uninstall complete.
 echo Restart RAD Studio for the IDE to drop the component from the Tool Palette.
@@ -112,6 +126,18 @@ for /f "delims=" %%F in ('dir /b /a:-D "%~2" 2^>nul') do (
   echo   del   %~1\%%F
 )
 popd >nul
+exit /b 0
+
+:: ---------------------------------------------------------------------------
+:: :libpath_del  <BDS_VERSION>  <Platform>  <Path>
+:: Removes <Path> from HKCU\...\BDS\<ver>\Library\<Platform>\Search Path
+:: (case-insensitive exact-string match). No-op if key/value/path absent.
+:: ---------------------------------------------------------------------------
+:libpath_del
+set "PS_VER=%~1"
+set "PS_PLAT=%~2"
+set "PS_PATH=%~3"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$k = 'HKCU:\Software\Embarcadero\BDS\' + $env:PS_VER + '\Library\' + $env:PS_PLAT; $n = 'Search Path'; $rm = $env:PS_PATH; if(!(Test-Path $k)){ exit 0 }; $c = (Get-ItemProperty -Path $k -Name $n -ErrorAction SilentlyContinue).$n; if(-not $c){ exit 0 }; $orig = $c; $p = $c -split ';' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' -and $_ -ine $rm }; $new = ($p -join ';'); if($new -ne $orig){ Set-ItemProperty -Path $k -Name $n -Value $new -Type String; Write-Host ('  removed ' + $env:PS_PLAT + ' Search Path -= ' + $rm) } else { Write-Host ('  skip    ' + $env:PS_PLAT + ' Search Path did not contain ' + $rm) }"
 exit /b 0
 
 :fail

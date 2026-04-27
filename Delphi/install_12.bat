@@ -80,6 +80,21 @@ echo.
 echo === Registering with RAD Studio 12 (BDS %BDS_VERSION%) ===
 reg add "%REG_BASE%\Known Packages" /v "%DSGN_BPL_WIN32%" /t REG_SZ /d "%PKG_DESCRIPTION%" /f >nul || goto :fail
 
+:: ===========================================================================
+:: Add the runtime source folder to the IDE's per-platform Library Search Path
+:: so consumer projects can resolve NDBGrid / ColTitleAttrs without the user
+:: editing Tools > Options > Language > Delphi > Library by hand. Without this
+:: dcc32/dcc64/dcc64x report F2613 "Unit 'NDBGrid' not found" even though the
+:: component is on the Tool Palette.
+:: ===========================================================================
+set "SOURCE_DIR=%SCRIPT_DIR:~0,-1%"
+
+echo.
+echo === Updating IDE Library Search Path ===
+for %%P in (Win32 Win64 Win64x) do (
+  call :libpath_add "%BDS_VERSION%" "%%P" "%SOURCE_DIR%"
+)
+
 echo.
 echo Install complete.
 echo   IDE (bds.exe, 32-bit only) --^> %DSGN_BPL_WIN32%
@@ -95,6 +110,19 @@ echo.
 echo === Building %~n1 / %2 ===
 msbuild %1 /t:Clean /p:Config=Release /p:Platform=%2 /v:minimal /nologo || exit /b 1
 msbuild %1 /t:Build /p:Config=Release /p:Platform=%2 /v:minimal /nologo || exit /b 1
+exit /b 0
+
+:: ---------------------------------------------------------------------------
+:: :libpath_add  <BDS_VERSION>  <Platform>  <Path>
+:: Idempotently appends <Path> to HKCU\...\BDS\<ver>\Library\<Platform>\Search Path
+:: using inline PowerShell (read-modify-write of the semicolon-delimited REG_SZ).
+:: Args are passed via env vars to keep the PS one-liner free of nested quoting.
+:: ---------------------------------------------------------------------------
+:libpath_add
+set "PS_VER=%~1"
+set "PS_PLAT=%~2"
+set "PS_PATH=%~3"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$k = 'HKCU:\Software\Embarcadero\BDS\' + $env:PS_VER + '\Library\' + $env:PS_PLAT; $n = 'Search Path'; $a = $env:PS_PATH; if(!(Test-Path $k)){ New-Item -Path $k -Force | Out-Null }; $c = (Get-ItemProperty -Path $k -Name $n -ErrorAction SilentlyContinue).$n; $p = @(); if($c){ $p = $c -split ';' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' } }; if(-not ($p -icontains $a)){ $p += $a; Set-ItemProperty -Path $k -Name $n -Value ($p -join ';') -Type String; Write-Host ('  added ' + $env:PS_PLAT + ' Search Path += ' + $a) } else { Write-Host ('  ok    ' + $env:PS_PLAT + ' Search Path already has ' + $a) }"
 exit /b 0
 
 :fail
