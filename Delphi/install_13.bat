@@ -25,6 +25,12 @@ set "RUN_PKG=EnhDbGridRunPkg"
 set "DSGN_PKG=EnhDbGridDsgnPkg"
 set "PKG_DESCRIPTION=Enhanced DBGrid"
 
+:: {$LIBSUFFIX AUTO} value for this RAD Studio version. NOT always equal to
+:: BDS_VERSION with the dot stripped (BDS 23 produces "290", not "230") --
+:: check the auto-built BPL filename under %BDSCOMMONDIR%\Bpl after a
+:: manual build to confirm.
+set "LIB_SUFFIX=370"
+
 :: Which 64-bit BPL the 64-bit IDE host should load. Most third-party
 :: packages use Win64; flip to Win64x if you specifically need the Clang-x64
 :: design-time build.
@@ -51,9 +57,6 @@ if not defined BDSCOMMONDIR (
   echo ERROR: BDSCOMMONDIR not set after running rsvars.bat.
   goto :fail
 )
-
-:: {$LIBSUFFIX AUTO} produces version digits without the dot (37.0 -> 370)
-set "LIB_SUFFIX=%BDS_VERSION:.=%"
 
 :: ===========================================================================
 :: Build runtime + design-time on all three platforms.

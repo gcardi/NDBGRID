@@ -24,6 +24,9 @@ set "BDS_ROOT=C:\Program Files (x86)\Embarcadero\Studio\%BDS_VERSION%"
 set "RUN_PKG=EnhDbGridRunPkg"
 set "DSGN_PKG=EnhDbGridDsgnPkg"
 
+:: {$LIBSUFFIX AUTO} value for this RAD Studio version (see install_13.bat).
+set "LIB_SUFFIX=370"
+
 :: ===========================================================================
 :: Sanity checks + MSBuild env (needed for $BDSCOMMONDIR)
 :: ===========================================================================
@@ -39,7 +42,6 @@ if not defined BDSCOMMONDIR (
   goto :fail
 )
 
-set "LIB_SUFFIX=%BDS_VERSION:.=%"
 set "REG_BASE=HKCU\Software\Embarcadero\BDS\%BDS_VERSION%"
 
 :: Both possible paths for the 64-bit IDE host's design-time BPL
@@ -69,13 +71,15 @@ for %%D in (
   "%BDSCOMMONDIR%\Bpl\Win64x"
   "%BDSCOMMONDIR%\Dcp"
   "%BDSCOMMONDIR%\Dcp\Win64"
+  "%BDSCOMMONDIR%\Dcp\Win64\Release"
   "%BDSCOMMONDIR%\Dcp\Win64x"
+  "%BDSCOMMONDIR%\Dcp\Win64x\Release"
   "%BDSCOMMONDIR%\hpp\Win32"
   "%BDSCOMMONDIR%\hpp\Win64"
   "%BDSCOMMONDIR%\hpp\Win64x"
 ) do (
   call :rmpat %%D "%RUN_PKG%*"
-  call :rmpat %%D "%DSGN_PKG%*"
+  call :rmpat %%D "EnhDbGridDsgn*"
 )
 
 echo.
@@ -103,11 +107,9 @@ exit /b 0
 :rmpat
 if not exist "%~1" exit /b 0
 pushd "%~1" >nul
-for %%F in ("%~2") do (
-  if exist "%%~F" (
-    del /q "%%~F" >nul 2>nul
-    echo   del   %~1\%%~F
-  )
+for /f "delims=" %%F in ('dir /b /a:-D "%~2" 2^>nul') do (
+  del /q "%%F" >nul 2>nul
+  echo   del   %~1\%%F
 )
 popd >nul
 exit /b 0
