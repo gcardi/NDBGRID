@@ -3,7 +3,7 @@ unit ColTitleAttrs;
 interface
 
 uses
-  Data.DB, NDBGrid;
+  System.Classes, Data.DB, NDBGrid;
 
 type
   TColumnTitleAttrs = record
