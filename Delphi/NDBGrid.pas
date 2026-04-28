@@ -304,7 +304,7 @@ type
 implementation
 
 uses
-  ColTitleAttrs;
+  ColTitleAttrs, Vcl.GraphUtil;
 
 type
   TNDBGridCellHintWindow = class(THintWindow)
@@ -366,10 +366,47 @@ const
 var
   TextRect: TRect;
   TextLeft: Integer;
+  FillRect: TRect;
+  Style: TCustomStyleServices;
+  Details: TThemedElementDetails;
+  StyleColor: TColor;
+  GradientStart: TColor;
+  GradientEnd: TColor;
+  TextColor: TColor;
+  BorderColor: TColor;
 begin
   Canvas.Font.Assign(Font);
-  Canvas.Brush.Color := Color;
-  Canvas.FillRect(ClientRect);
+  FillRect := ClientRect;
+  TextColor := Canvas.Font.Color;
+  BorderColor := clBtnShadow;
+
+  Style := StyleServices(Screen.ActiveForm);
+  if Style.Enabled then
+  begin
+    Details := Style.GetElementDetails(thHintNormal);
+    if Style.GetElementColor(Details, ecGradientColor1, StyleColor) and
+      (StyleColor <> clNone) then
+      GradientStart := StyleColor
+    else
+      GradientStart := Color;
+    if Style.GetElementColor(Details, ecGradientColor2, StyleColor) and
+      (StyleColor <> clNone) then
+      GradientEnd := StyleColor
+    else
+      GradientEnd := GradientStart;
+    if Style.GetElementColor(Details, ecTextColor, StyleColor) and
+      (StyleColor <> clNone) then
+      TextColor := StyleColor;
+    if Style.GetElementColor(Details, ecBorderColor, StyleColor) and
+      (StyleColor <> clNone) then
+      BorderColor := StyleColor;
+    GradientFillCanvas(Canvas, GradientStart, GradientEnd, FillRect, gdVertical);
+  end
+  else
+  begin
+    Canvas.Brush.Color := Color;
+    Canvas.FillRect(FillRect);
+  end;
 
   TextRect := ClientRect;
   InflateRect(TextRect, -CELL_TEXT_MARGIN, 0);
@@ -384,10 +421,11 @@ begin
     TextLeft := TextRect.Left;
   end;
 
+  Canvas.Font.Color := TextColor;
   Canvas.TextRect(ClientRect, TextLeft, FTextOffsetY, FDisplayText);
   Canvas.Brush.Style := bsClear;
   try
-    Canvas.Pen.Color := clBtnShadow;
+    Canvas.Pen.Color := BorderColor;
     Canvas.Rectangle(ClientRect);
   finally
     Canvas.Brush.Style := bsSolid;
