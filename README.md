@@ -58,7 +58,7 @@ Two demo projects are provided in the `Test` folder:
 
 Explore these demos to see practical usage examples in both supported languages.
 
-For detailed API and customization options, see the source code in the [`Delphi`](./Delphi) folder.
+For detailed architecture, API, build, and customization notes, see the [technical documentation](docs/TECHNICAL.md). The component source is available in the [`Delphi`](./Delphi) folder.
 
 ---
 
