@@ -306,8 +306,93 @@ implementation
 uses
   ColTitleAttrs;
 
+type
+  TNDBGridCellHintWindow = class(THintWindow)
+  private
+    FAlignment: TAlignment;
+    FDisplayText: string;
+    FTextOffsetY: Integer;
+  public
+    procedure ActivateCellHint(const CellScreenRect: TRect;
+      const Text: string; AFont: TFont; AColor: TColor;
+      Alignment: TAlignment);
+    procedure Paint; override;
+  end;
+
 const
   ORDER_BY_PREFIX_DEF = 'order by ';
+
+{ TNDBGridCellHintWindow }
+
+procedure TNDBGridCellHintWindow.ActivateCellHint(const CellScreenRect: TRect;
+  const Text: string; AFont: TFont; AColor: TColor; Alignment: TAlignment);
+const
+  CELL_TEXT_MARGIN = 2;
+var
+  HintRect: TRect;
+  HintWidth: Integer;
+begin
+  FDisplayText := Text;
+  FAlignment := Alignment;
+  Color := AColor;
+  Canvas.Font.Assign(AFont);
+  Font.Assign(AFont);
+
+  HintRect := CellScreenRect;
+  OffsetRect(HintRect, 0, -2);
+  FTextOffsetY := CELL_TEXT_MARGIN + 1;
+  HintWidth := Canvas.TextWidth(Text) + (CELL_TEXT_MARGIN * 2) + 1;
+  HintWidth := Max(HintWidth, CellScreenRect.Right - CellScreenRect.Left);
+
+  case Alignment of
+    taRightJustify:
+      HintRect.Left := CellScreenRect.Right - HintWidth;
+    taCenter:
+      begin
+        HintRect.Left := CellScreenRect.Left -
+          ((HintWidth - (CellScreenRect.Right - CellScreenRect.Left)) div 2);
+        HintRect.Right := HintRect.Left + HintWidth;
+      end;
+  else
+    HintRect.Right := HintRect.Left + HintWidth;
+  end;
+
+  ActivateHint(HintRect, Text);
+end;
+
+procedure TNDBGridCellHintWindow.Paint;
+const
+  CELL_TEXT_MARGIN = 2;
+var
+  TextRect: TRect;
+  TextLeft: Integer;
+begin
+  Canvas.Font.Assign(Font);
+  Canvas.Brush.Color := Color;
+  Canvas.FillRect(ClientRect);
+
+  TextRect := ClientRect;
+  InflateRect(TextRect, -CELL_TEXT_MARGIN, 0);
+
+  case FAlignment of
+    taRightJustify:
+      TextLeft := TextRect.Right - Canvas.TextWidth(FDisplayText) - 1;
+    taCenter:
+      TextLeft := TextRect.Left +
+        ((TextRect.Right - TextRect.Left) - Canvas.TextWidth(FDisplayText)) div 2;
+  else
+    TextLeft := TextRect.Left;
+  end;
+
+  Canvas.TextRect(ClientRect, TextLeft, FTextOffsetY, FDisplayText);
+  Canvas.Brush.Style := bsClear;
+  try
+    Canvas.Pen.Color := clBtnShadow;
+    Canvas.Rectangle(ClientRect);
+  finally
+    Canvas.Brush.Style := bsSolid;
+  end;
+end;
 
 { TNColumn }
 
@@ -955,9 +1040,10 @@ var
   Column: TColumn;
   DisplayText: string;
   CRect: TRect;
+  HintFont: TFont;
   OldFont: TFont;
   CellScreenPos: TPoint;
-  HintRect: TRect;
+  CellScreenRect: TRect;
   ActivateAutoHint: Boolean;
 begin
   if FCellAutoHintEnabled and MouseInClient and
@@ -984,49 +1070,42 @@ begin
               ClearGridHintWindow;
             DisplayText := Column.Field.DisplayText;
             CRect := CellRect(MC.X, MC.Y);
-            OldFont := TFont.Create;
+            HintFont := TFont.Create;
             try
-              OldFont.Assign(Canvas.Font);
-              Canvas.Font.Assign(Column.Font);
-              TextWidth := Canvas.TextWidth(DisplayText);
-              Canvas.Font.Assign(OldFont);
-            finally
-              OldFont.Free;
-            end;
-            if TextWidth > (CRect.Right - CRect.Left) then
-            begin
-              if FGridHintWindow = nil then
-              begin
-                FGridHintWindow := THintWindow.Create(nil);
-                FGridHintWindow.Color := Color;
-                FGridHintWindow.Canvas.Font.Assign(Column.Font);
-
-                CellScreenPos := ClientToScreen(Point(CRect.Left, CRect.Top));
-                HintRect := FGridHintWindow.CalcHintRect(Screen.Width,
-                  DisplayText, nil);
-
-                case Column.Alignment of
-                  taRightJustify:
-                    OffsetRect(HintRect,
-                      CellScreenPos.X - Max(0, (HintRect.Right - HintRect.Left) -
-                        (CRect.Right - CRect.Left)) + 1,
-                      CellScreenPos.Y - 1);
-                  taCenter:
-                    OffsetRect(HintRect,
-                      CellScreenPos.X - Max(0, (HintRect.Right - HintRect.Left) -
-                        (CRect.Right - CRect.Left)) div 2,
-                      CellScreenPos.Y - 1);
-                else
-                  OffsetRect(HintRect, CellScreenPos.X, CellScreenPos.Y - 1);
-                end;
-                ActivateAutoHint := True;
-                if Assigned(FOnBeforeAutoHint) then
-                  FOnBeforeAutoHint(Self, ActivateAutoHint);
-                if ActivateAutoHint then
-                  FGridHintWindow.ActivateHint(HintRect, DisplayText);
-                FGridCurrentHintCol := MC.X;
-                FGridCurrentHintRow := MC.Y;
+              OldFont := TFont.Create;
+              try
+                OldFont.Assign(Canvas.Font);
+                Canvas.Font.Assign(Self.Font);
+                if Column.Font <> nil then
+                  Canvas.Font.Assign(Column.Font);
+                HintFont.Assign(Canvas.Font);
+                TextWidth := Canvas.TextWidth(DisplayText);
+                Canvas.Font.Assign(OldFont);
+              finally
+                OldFont.Free;
               end;
+              if TextWidth > (CRect.Right - CRect.Left) then
+              begin
+                if FGridHintWindow = nil then
+                begin
+                  FGridHintWindow := TNDBGridCellHintWindow.Create(nil);
+                  CellScreenPos := ClientToScreen(Point(CRect.Left, CRect.Top));
+                  CellScreenRect := Rect(CellScreenPos.X, CellScreenPos.Y,
+                    CellScreenPos.X + (CRect.Right - CRect.Left),
+                    CellScreenPos.Y + (CRect.Bottom - CRect.Top));
+                  ActivateAutoHint := True;
+                  if Assigned(FOnBeforeAutoHint) then
+                    FOnBeforeAutoHint(Self, ActivateAutoHint);
+                  if ActivateAutoHint then
+                    TNDBGridCellHintWindow(FGridHintWindow).ActivateCellHint(
+                      CellScreenRect, DisplayText, HintFont, Color,
+                      Column.Alignment);
+                  FGridCurrentHintCol := MC.X;
+                  FGridCurrentHintRow := MC.Y;
+                end;
+              end;
+            finally
+              HintFont.Free;
             end;
           end;
         finally
