@@ -2,39 +2,49 @@
 setlocal EnableExtensions
 
 :: ===========================================================================
-:: NDBGRID -- Delphi component uninstaller for RAD Studio 12 (BDS 23.0)
+:: NDBGRID -- Delphi component uninstaller for RAD Studio
 ::
 :: What this script does:
-::   1. Removes the design-time package's entries from the IDE's Known
-::      Packages and Disabled Packages keys (no x64 variants in BDS 23 --
-::      RAD Studio 12 has a 32-bit-only IDE).
+::   1. Removes the design-time package's entries from the IDE's
+::      Known Packages / Known Packages x64 / Disabled Packages /
+::      Disabled Packages x64 keys.
 ::   2. Deletes the build artifacts (.bpl / .dcp / .bpi / .lib / .a / .hpp /
-::      .res / .map / .pdi / .tds / .rsp) under $(BDSCOMMONDIR) for the
-::      runtime and design-time packages. The wildcard pattern matches the
-::      pre-rename "EnhDbGridDsgn*" name as well as the current
-::      "EnhDbGridDsgnPkg*", so leftover legacy artifacts are also cleaned.
+::      .obj / .o / .res / .map / .pdi / .tds / .rsp) under the default IDE
+::      output locations: %BDSCOMMONDIR%\Bpl[\Win64|\Win64x],
+::      %BDSCOMMONDIR%\Dcp[\Win64|\Win64x] and %BDSCOMMONDIR%\hpp[\<plat>].
 ::
+:: It tries to remove BOTH the Win64 and Win64x design-time BPL paths from
+:: the x64 IDE keys, so it works regardless of which IDE_X64_PLATFORM was
+:: used at install time. The x64 cleanup steps are skipped on RAD Studio
+:: versions without a 64-bit IDE host (e.g. RAD Studio 12 / BDS 23.0).
 :: Missing entries / files are silently ignored, so re-running on a clean
 :: machine is a no-op.
 ::
-:: Configuration -- keep in sync with install_12.bat
+:: BDS_VERSION is derived from the script's location (same scheme as
+:: install.bat): ...\Studio\<VER>\NDBGRID\Delphi\uninstall.bat -> <VER>.
 :: ===========================================================================
-set "BDS_VERSION=23.0"
+
+set "SCRIPT_DIR=%~dp0"
+
+for %%I in ("%~dp0..\..") do set "BDS_VER_DIR=%%~fI"
+for %%I in ("%BDS_VER_DIR%") do set "BDS_VERSION=%%~nxI"
+
+if "%BDS_VERSION%"=="" (
+  echo ERROR: Could not derive BDS_VERSION from script path "%SCRIPT_DIR%".
+  echo Expected layout: ...\Studio\^<VER^>\NDBGRID\Delphi\uninstall.bat
+  goto :fail
+)
+
 set "BDS_ROOT=C:\Program Files (x86)\Embarcadero\Studio\%BDS_VERSION%"
 set "RUN_PKG=EnhDbGridRunPkg"
 set "DSGN_PKG=EnhDbGridDsgnPkg"
-
-:: {$LIBSUFFIX AUTO} value for this RAD Studio version (see install_12.bat).
-set "LIB_SUFFIX=290"
-
-set "SCRIPT_DIR=%~dp0"
 
 :: ===========================================================================
 :: Sanity checks + MSBuild env (needed for $BDSCOMMONDIR)
 :: ===========================================================================
 if not exist "%BDS_ROOT%\bin\rsvars.bat" (
   echo ERROR: rsvars.bat not found at "%BDS_ROOT%\bin\rsvars.bat".
-  echo Edit BDS_VERSION / BDS_ROOT at the top of this script.
+  echo Verify that RAD Studio %BDS_VERSION% is installed at the expected path.
   goto :fail
 )
 
@@ -44,22 +54,48 @@ if not defined BDSCOMMONDIR (
   goto :fail
 )
 
+:: ===========================================================================
+:: Detect whether this RAD Studio install ships a 64-bit IDE host (mirrors
+:: the same probe in install.bat). Older versions (e.g. RAD Studio 12 /
+:: BDS 23.0) are 32-bit-only -- in that case the "Known Packages x64" /
+:: "Disabled Packages x64" registry keys do not exist and the Bpl\Win64[x]
+:: directories were never populated by install.
+:: ===========================================================================
+set "HAS_X64_IDE="
+if exist "%BDS_ROOT%\bin64\bds.exe" set "HAS_X64_IDE=1"
+
+echo.
+if defined HAS_X64_IDE (
+  echo === RAD Studio %BDS_VERSION%   64-bit IDE host: yes   BDSCOMMONDIR=%BDSCOMMONDIR% ===
+) else (
+  echo === RAD Studio %BDS_VERSION%   64-bit IDE host: no  -- skipping x64 cleanup   BDSCOMMONDIR=%BDSCOMMONDIR% ===
+)
+
 set "REG_BASE=HKCU\Software\Embarcadero\BDS\%BDS_VERSION%"
-set "DSGN_BPL_WIN32=%BDSCOMMONDIR%\Bpl\%DSGN_PKG%%LIB_SUFFIX%.bpl"
-:: Pre-rename legacy path that may still be registered from older installs
-set "LEGACY_DSGN_BPL=%BDSCOMMONDIR%\Bpl\EnhDbGridDsgn%LIB_SUFFIX%.bpl"
 
 :: ===========================================================================
-:: Unregister from the IDE
+:: Unregister from the IDE. Glob the actual BPL filenames so we don't depend
+:: on knowing the {$LIBSUFFIX AUTO} value.
 :: ===========================================================================
+echo.
 echo === Removing registry entries ===
-call :regdel "Known Packages"    "%DSGN_BPL_WIN32%"
-call :regdel "Disabled Packages" "%DSGN_BPL_WIN32%"
-call :regdel "Known Packages"    "%LEGACY_DSGN_BPL%"
-call :regdel "Disabled Packages" "%LEGACY_DSGN_BPL%"
+for %%F in ("%BDSCOMMONDIR%\Bpl\%DSGN_PKG%*.bpl") do (
+  call :regdel "Known Packages"    "%%~fF"
+  call :regdel "Disabled Packages" "%%~fF"
+)
+if defined HAS_X64_IDE (
+  for %%F in ("%BDSCOMMONDIR%\Bpl\Win64\%DSGN_PKG%*.bpl") do (
+    call :regdel "Known Packages x64"    "%%~fF"
+    call :regdel "Disabled Packages x64" "%%~fF"
+  )
+  for %%F in ("%BDSCOMMONDIR%\Bpl\Win64x\%DSGN_PKG%*.bpl") do (
+    call :regdel "Known Packages x64"    "%%~fF"
+    call :regdel "Disabled Packages x64" "%%~fF"
+  )
+)
 
 :: ===========================================================================
-:: Delete build artifacts under $(BDSCOMMONDIR)
+:: Delete build artifacts under %BDSCOMMONDIR%
 :: ===========================================================================
 echo.
 echo === Removing build artifacts from %BDSCOMMONDIR% ===
@@ -69,15 +105,18 @@ for %%D in (
   "%BDSCOMMONDIR%\Bpl\Win64x"
   "%BDSCOMMONDIR%\Dcp"
   "%BDSCOMMONDIR%\Dcp\Win64"
-  "%BDSCOMMONDIR%\Dcp\Win64\Release"
   "%BDSCOMMONDIR%\Dcp\Win64x"
-  "%BDSCOMMONDIR%\Dcp\Win64x\Release"
+  "%BDSCOMMONDIR%\hpp"
   "%BDSCOMMONDIR%\hpp\Win32"
   "%BDSCOMMONDIR%\hpp\Win64"
   "%BDSCOMMONDIR%\hpp\Win64x"
 ) do (
   call :rmpat %%D "%RUN_PKG%*"
-  call :rmpat %%D "EnhDbGridDsgn*"
+  call :rmpat %%D "%DSGN_PKG%*"
+  call :rmpat %%D "NDBGrid.*"
+  call :rmpat %%D "NDBGridDsgn.*"
+  call :rmpat %%D "ColTitleAttrs.*"
+  call :rmpat %%D "ComponentEditors.*"
 )
 
 :: ===========================================================================

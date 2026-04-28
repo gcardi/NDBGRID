@@ -53,6 +53,7 @@
         <DCC_UsePackage>rtl;vcl;vcldb;vclimg;designide;EnhDbGridRunPkg;$(DCC_UsePackage)</DCC_UsePackage>
         <DesignOnlyPackage>true</DesignOnlyPackage>
         <DllSuffix>$(Auto)</DllSuffix>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>EnhDbGridDsgnPkg</SanitizedProjectName>
         <VerInfo_Locale>1040</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=Enhanced DBGrid design-time package;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>

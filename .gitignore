@@ -20,6 +20,7 @@ Win64x/
 *.ocx
 *.pdi
 *.res
+# Keep .rc resource sources tracked; ignore generated .res outputs.
 *.rsm
 *.so
 *.stat
