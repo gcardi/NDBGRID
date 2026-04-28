@@ -1,50 +1,92 @@
-# NDBGRID
-## Enhanced TDBGrid for VCL applications 
 
-The component is maintained as a Delphi codebase in [`Delphi`](./Delphi).
-The Delphi runtime package is configured with `DCC_CBuilderOutput=All`, so
-building it also generates the C++Builder consumption artifacts (`.hpp`,
-`.bpi`, `.lib`, `.a`). The same Delphi design-time package registers
-`TNDBGrid` in the IDE for both Delphi and C++Builder personalities.
+
+
+# NDBGRID
+
+**Enhanced TDBGrid for Delphi & C++Builder VCL Applications**
+
+NDBGRID is a modern, feature-rich replacement for the standard TDBGrid, designed for professional VCL applications in Delphi and C++Builder. The component was originally written in C++ and has been translated to Delphi for broader compatibility. The original C++ version is included as a compressed archive (`OldCppComponent.7z`) in the root of this repository.
+
+---
+
+## Features
+
+- **Interactive Sorting:** Clickable column headers automatically generate the `ORDER BY` clause for your dataset.
+- **Smart Tooltips:** Automatic tooltip expansion for cell values that do not fit in the column width.
+- **Custom Events:** Extended event set for advanced grid interaction and customization.
+- **VCL Styles Support:** Seamless integration with VCL styles for a modern UI.
+- **Easy Integration:** Drop-in replacement for TDBGrid with additional properties and events.
+
+---
+
+## Screenshots
+
+<p align="center">
+	<img src="docs/assets/images/Screenshot1.png" alt="Advanced grid features" width="600">
+	<br><em>Interactive sorting and advanced column features</em>
+</p>
+
+<p align="center">
+	<img src="docs/assets/images/Screenshot2.png" alt="VCL Styles support" width="600">
+	<br><em>Full VCL styles support for a modern look</em>
+</p>
+
+---
 
 ## Installation
 
-Use the installer under `Delphi` for your RAD Studio version:
+1. Open the `Delphi` folder.
+2. Run `install.bat` to build and register the component packages in your IDE.
+3. Restart RAD Studio. The `TNDBGrid` component will appear in the Tool Palette for both Delphi and C++Builder.
+4. To uninstall, run `uninstall.bat` in the same folder.
 
-- `Delphi\install_12.bat`
-- `Delphi\install_13.bat`
+---
 
-Those scripts:
 
-- build the Delphi runtime/design packages
-- register the design-time package in the IDE
-- add the `Delphi` source folder to the IDE library path
+## Usage
 
-After installation, restart RAD Studio. `TNDBGrid` should then be available
-from the Tool Palette in both Delphi and C++Builder.
+1. Drop `TNDBGrid` onto your form (just like TDBGrid).
+2. Connect it to your `TDataSource`.
+3. Configure columns, events, and properties as needed to leverage advanced features.
 
-## Paths 
+### Demos
 
-Includes:
+Two demo projects are provided in the `Test` folder:
+
+- `Test/Delphi/` &mdash; Delphi demo project
+- `Test/Cpp/` &mdash; C++Builder demo project
+
+Explore these demos to see practical usage examples in both supported languages.
+
+For detailed API and customization options, see the source code in the [`Delphi`](./Delphi) folder.
+
+---
+
+## Paths & Configuration
+
+**Include Path:**
 ```
 <repo>\Delphi
 ```
 
-Libraries:
+**Library Path:**
 ```
 $(BDSCOMMONDIR)\Bpl
 $(BDSCOMMONDIR)\Bpl\$(Platform)
 ```
 
-## Some interesting features:
+---
 
-- Automatic generation of the ORDER BY clause by (clickable) column headers configuration
-- Automatic tooltip expansion (on mouse over) when the field value doesn't fit in the column width
-- Some useful events were added 
-- VCL styles are supported
-- ...
 
-<img src="docs/assets/images/Screenshot1.png" alt="Comparated grid feature example" border="0"></a>
+---
 
-<img src="docs/assets/images/Screenshot2.png" alt="Styles support" border="0"></a>
+## Original C++ Component
+
+The original version of this component, written in C++, is available as `OldCppComponent.7z` in the root of this repository. This archive contains the legacy C++ source code for reference or migration purposes.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute it, subject to the conditions in the license.
 
