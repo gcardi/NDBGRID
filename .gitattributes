@@ -1,0 +1,47 @@
+# Auto-detect text vs binary; normalize to LF in repo, restore native EOL on checkout.
+* text=auto
+
+# Delphi / C++Builder source: keep CRLF on disk (IDE-native).
+*.pas        text eol=crlf
+*.dpr        text eol=crlf
+*.dpk        text eol=crlf
+*.dfm        text eol=crlf
+*.dproj      text eol=crlf
+*.groupproj  text eol=crlf
+*.cbproj     text eol=crlf
+*.cpp        text eol=crlf
+*.h          text eol=crlf
+
+# Windows resource scripts and batch files: must be CRLF.
+*.rc         text eol=crlf
+*.bat        text eol=crlf
+*.cmd        text eol=crlf
+
+# Documentation and config: let Git normalize (auto handles EOL).
+*.md         text
+*.json       text
+*.scss       text
+*.css        text
+*.txt        text
+
+# Binary files: never modify.
+*.7z         binary
+*.zip        binary
+*.bmp        binary
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.ico        binary
+*.pdf        binary
+*.chm        binary
+*.res        binary
+*.dcu        binary
+*.dcp        binary
+*.bpl        binary
+*.dll        binary
+*.exe        binary
+*.lib        binary
+*.obj        binary
+*.identcache binary
+*.sdb        binary
