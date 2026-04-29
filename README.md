@@ -53,7 +53,7 @@ NDBGRID is a modern, feature-rich replacement for the standard TDBGrid, designed
 
 Two demo projects are provided in the `Test` folder:
 
-- `Test/Delphi/` &mdash; Delphi demo project
+- `Test/Delphi/` &mdash; Delphi demo project (see the [walkthrough](docs/DELPHI_EXAMPLE.md))
 - `Test/Cpp/` &mdash; C++Builder demo project
 
 Explore these demos to see practical usage examples in both supported languages.
