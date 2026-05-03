@@ -365,15 +365,13 @@ demo to resolve both the package artifacts and local component source.
 `Test/Cpp` is the C++Builder version of the same VCL demo. It contains:
 
 - `Test.cpp` and `Test.cbproj`
-- `Test2.cpp` and `Test2.cbproj`
 - `ProjectGroupTest.groupproj`
 - `FormMain.cpp`, `FormMain.h`, and `FormMain.dfm`
 - `DataMod.cpp`, `DataMod.h`, and `DataMod.dfm`
-- `Test2PCH2.h`
 
-Both C++ entry points initialize the VCL application, set `MainFormOnTaskBar`,
-try to activate the `Amakrits` style through `TStyleManager::TrySetStyle`, and
-create the same `TForm1`.
+The C++ entry point initializes the VCL application, sets `MainFormOnTaskBar`,
+tries to activate the `Amakrits` style through `TStyleManager::TrySetStyle`,
+and creates `TForm1`.
 
 The C++ form mirrors the Delphi demo:
 
