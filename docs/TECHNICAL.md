@@ -178,6 +178,42 @@ demo handles `OnAfterAutoSet`, reads `GetOrderByClause`, updates the `TFDQuery`
 SQL text, and reopens the query. This keeps NDBGRID generic and avoids coupling
 the component to FireDAC, SQL dialects, or a specific dataset class.
 
+### Using `TNDBGridSaveSettings` directly
+
+`TNDBGridSaveSettings` is a small RAII-style helper. Its constructor captures
+the current column settings (via `GetColumnSettingsAsBytes`), `LeftCol`, and
+`FixedCols`; its destructor restores all three. Application code can use it
+to wrap any operation that would otherwise reset visible column state, such
+as rewriting the underlying SQL, swapping datasets, or applying filters that
+force a column rebuild.
+
+```pascal
+uses
+  NDBGrid;
+
+procedure TForm1.ApplyFilter(const AWhere: string);
+var
+  Snapshot: TNDBGridSaveSettings;
+begin
+  Snapshot := TNDBGridSaveSettings.Create(NDBGrid1);
+  try
+    FDQuery1.Close;
+    FDQuery1.SQL.Text :=
+      'select * from customers ' + AWhere;
+    FDQuery1.Open;
+  finally
+    Snapshot.Free; { restores column widths/order, LeftCol, FixedCols }
+  end;
+end;
+```
+
+The pattern is the same one used internally by `RefreshDataset` and by the
+auto-sort path in `MouseUp`: create a snapshot, perform the disruptive work
+inside a `try`/`finally`, and free the snapshot to restore the grid layout.
+Pass the snapshot a `TNDBGrid` (or any `TCustomNDBGrid` descendant); it does
+not take ownership of the grid and only keeps a reference for the lifetime
+of the snapshot.
+
 ## Drawing Behavior
 
 `DrawCell` dispatches title and indicator cells before falling back to inherited
