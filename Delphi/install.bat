@@ -46,6 +46,7 @@ set "BDS_ROOT=C:\Program Files (x86)\Embarcadero\Studio\%BDS_VERSION%"
 set "RUN_PKG=EnhDbGridRunPkg"
 set "DSGN_PKG=EnhDbGridDsgnPkg"
 set "PKG_DESCRIPTION=Enhanced DBGrid"
+set "MSBUILD_TOOLS_VERSION=4.0"
 
 :: Which 64-bit BPL the 64-bit IDE host should load. Most third-party
 :: packages use Win64; flip to Win64x if you specifically need the Clang-x64
@@ -187,8 +188,8 @@ exit /b 0
 :build
 echo.
 echo === Building %~n1 / %2 ===
-msbuild %1 /t:Clean /p:Config=Release /p:Platform=%2 /v:minimal /nologo || exit /b 1
-msbuild %1 /t:Build /p:Config=Release /p:Platform=%2 /v:minimal /nologo || exit /b 1
+msbuild %1 /t:Clean /p:Config=Release /p:Platform=%2 /tv:%MSBUILD_TOOLS_VERSION% /v:minimal /nologo || exit /b 1
+msbuild %1 /t:Build /p:Config=Release /p:Platform=%2 /tv:%MSBUILD_TOOLS_VERSION% /v:minimal /nologo || exit /b 1
 exit /b 0
 
 :: ---------------------------------------------------------------------------

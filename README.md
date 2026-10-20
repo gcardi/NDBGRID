@@ -42,7 +42,7 @@ NDBGRID is a modern, feature-rich replacement for the standard TDBGrid, designed
 
 ### Troubleshooting
 
-If `install.bat` fails with an MSBuild warning that it cannot load `*.tasks` from `C:\Windows\Microsoft.NET\Framework\v2.0.50727`, followed by `MSB4036` for the `CreateItem` task, MSBuild is likely using an incompatible or misconfigured .NET Framework toolset. This happens before the Delphi package is compiled and does not, by itself, indicate a source-code error.
+If `install.bat` fails with an MSBuild warning that it cannot load `*.tasks` from `C:\Windows\Microsoft.NET\Framework\v2.0.50727`, followed by `MSB4036` for the `CreateItem` task, check the MSBuild `DefaultToolsVersion` setting. A system-wide value of `2.0` can make MSBuild 4 look for tasks in the .NET Framework 2.0 folder even when `where msbuild` resolves to the .NET Framework 4 executable. This happens before the Delphi package is compiled and does not indicate a source-code error.
 
 Run the installer from a normal command prompt and check which MSBuild is being used:
 
@@ -52,7 +52,7 @@ where msbuild
 msbuild -version
 ```
 
-Make sure `where msbuild` resolves to the MSBuild supported by your RAD Studio installation, not an older copy earlier in `PATH`. Also check that environment variables such as `FrameworkVersion` or `MSBuildToolsPath` are not forcing MSBuild to use the .NET Framework 2.0 directory. If the problem persists, repair the RAD Studio/.NET build-tool installation or consult your administrator.
+The installer explicitly selects MSBuild ToolsVersion 4.0. If building manually, add `/tv:4.0` to the MSBuild command. Alternatively, an administrator can inspect `DefaultToolsVersion` under `HKLM\SOFTWARE\Microsoft\MSBuild\4.0` (and `HKLM\SOFTWARE\WOW6432Node\Microsoft\MSBuild\4.0`) and correct a stale `2.0` setting. Avoid changing machine-wide registry settings unless you understand the effect on other build tools.
 
 ---
 
